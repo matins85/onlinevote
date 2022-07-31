@@ -60,9 +60,9 @@ from django.utils.http import urlsafe_base64_encode as uid_encoder
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import get_user_model
 import unicodedata
-from django.contrib.sites.models import Site
+# from django.contrib.sites.models import Site
 
-current_site = Site.objects.get_current()
+# current_site = Site.objects.get_current()
 UserModel = get_user_model()
 
 
@@ -114,12 +114,12 @@ class PasswordResetForm:
             user=user_d,
             link=link,
             website=settings.URL_FRONT,
-            site_name=current_site.domain
+            site_name="onlinevoter.com"
         )
         html_message = render_to_string('account/email/password_reset_email.html', c)
         plain_message = strip_tags(html_message)
 
-        subject, from_email, to = '[{domain}] Password Reset for {title}'.format(domain=current_site.domain,
+        subject, from_email, to = '[{domain}] Password Reset for {title}'.format(domain="onlinevoter.com",
                                                                                  title="Melina"), \
                                   'noreply@somehost.local', UserModel.objects.get(email=self.email).email
 

@@ -54,10 +54,9 @@ from allauth.account.adapter import DefaultAccountAdapter
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.contrib.sites.models import Site
+# from django.contrib.sites.models import Site
 from django.contrib.auth import get_user_model
 
-current_site = Site.objects.get_current()
 UserModel = get_user_model()
 
 
@@ -66,7 +65,7 @@ class DefaultAccountAdapterCustom(DefaultAccountAdapter):
     def send_mail(self, template_prefix, email, context):
         html_message = render_to_string('account/email/email_confirmation_message.html', context)
         plain_message = strip_tags(html_message)
-        subject, from_email, to = f'[{current_site.domain}] Please Confirm Your E-mail Address', \
+        subject, from_email, to = f'[onlinevoter.com] Please Confirm Your E-mail Address', \
                                   'noreply@somehost.local', email
         msg = EmailMultiAlternatives(subject, plain_message, from_email, [to])
         msg.attach_alternative(template_prefix, "text/html")

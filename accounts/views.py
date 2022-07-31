@@ -22,8 +22,8 @@ from rest_framework.response import Response
 # Accounts Import
 from accounts.permission import IdentityIsVerified
 from accounts.serializers import OnlinevoteUserDetailSerializer, YearSerializer, VotersCreateSerializer, \
-    VotersDetailSerializer, VotersUpdateSerializer, DepartmentSerializer, SchoolSerializer
-from accounts.models import Year, RegisteredVoters, Department, School
+    VotersDetailSerializer, VotersUpdateSerializer, DepartmentSerializer, SchoolSerializer, PositionSerializer
+from accounts.models import Year, RegisteredVoters, Department, School, AspirantPosition
 from accounts.utils import year_choices
 
 UserModel = get_user_model()
@@ -31,6 +31,7 @@ year_model = Year
 voters_model = RegisteredVoters
 department_model = Department
 school_model = School
+position_model = AspirantPosition
 
 
 @api_view()
@@ -147,6 +148,7 @@ class ListYearSchoolDeptView(ListAPIView):
     serializer_class = YearSerializer
     serializer_class2 = DepartmentSerializer
     serializer_class3 = SchoolSerializer
+    serializer_class4 = PositionSerializer
 
     def get(self, request, *args, **kwargs):
         obj = year_model.objects.filter(year=datetime.date.today().year - 1)
@@ -156,14 +158,18 @@ class ListYearSchoolDeptView(ListAPIView):
             queryset = self.serializer_class(year_model.objects.all(), many=True)
             queryset2 = self.serializer_class2(department_model.objects.all(), many=True)
             queryset3 = self.serializer_class3(school_model.objects.all(), many=True)
-            return Response({'years': queryset.data, 'department': queryset2.data, 'school': queryset3.data})
+            queryset4 = self.serializer_class4(position_model.objects.all(), many=True)
+            return Response({'years': queryset.data, 'department': queryset2.data, 'school': queryset3.data,
+                            'postion': queryset4.data})
         else:
             add_year = [year_model(year=year['year']) for year in year_choices()]
             year_model.objects.bulk_create(add_year)
             queryset = self.serializer_class(year_model.objects.all(), many=True)
             queryset2 = self.serializer_class2(department_model.objects.all(), many=True)
             queryset3 = self.serializer_class3(school_model.objects.all(), many=True)
-            return Response({'years': queryset.data, 'department': queryset2.data, 'school': queryset3.data})
+            queryset4 = self.serializer_class4(position_model.objects.all(), many=True)
+            return Response({'years': queryset.data, 'department': queryset2.data, 'school': queryset3.data,
+                             'postion': queryset4.data})
 
 
 # class MelinaStatView(APIView):

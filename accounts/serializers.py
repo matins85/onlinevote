@@ -58,7 +58,7 @@ from rest_auth.serializers import LoginSerializer
 from django.contrib.auth import get_user_model
 from drf_extra_fields.fields import Base64ImageField
 # Account Import
-from accounts.models import Year, RegisteredVoters, Department, School
+from accounts.models import Year, RegisteredVoters, Department, School, AspirantPosition
 
 UserModel = get_user_model()
 token_model = Token
@@ -66,6 +66,7 @@ year_model = Year
 voters_model = RegisteredVoters
 department_model = Department
 school_model = School
+position_model = AspirantPosition
 
 
 class OnlinevoteUserDetailSerializer(serializers.ModelSerializer):
@@ -125,11 +126,20 @@ class SchoolSerializer(serializers.ModelSerializer):
         fields = ['id', 'school', 'department']
 
 
+class PositionSerializer(serializers.ModelSerializer):
+    """ Serializer for Aspirant Position Endpoint """
+
+    class Meta:
+        model = position_model
+        fields = "__all__"
+
+
 class VotersDetailSerializer(serializers.ModelSerializer):
     """ Serializer for School Endpoint """
 
     department = DepartmentSerializer()
     year = YearSerializer()
+    position = PositionSerializer()
 
     class Meta:
         model = voters_model
@@ -141,6 +151,7 @@ class VotersCreateSerializer(serializers.ModelSerializer):
 
     year = serializers.PrimaryKeyRelatedField(required=True, queryset=year_model.objects.all())
     department = serializers.PrimaryKeyRelatedField(required=True, queryset=department_model.objects.all())
+    position = serializers.PrimaryKeyRelatedField(required=False, queryset=position_model.objects.all())
     profile = Base64ImageField(required=True)
 
     class Meta:
@@ -158,6 +169,7 @@ class VotersUpdateSerializer(serializers.ModelSerializer):
 
     year = serializers.PrimaryKeyRelatedField(required=False, queryset=year_model.objects.all())
     department = serializers.PrimaryKeyRelatedField(required=False, queryset=department_model.objects.all())
+    position = serializers.PrimaryKeyRelatedField(required=False, queryset=position_model.objects.all())
     profile = Base64ImageField(required=False)
 
     class Meta:

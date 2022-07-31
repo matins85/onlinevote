@@ -74,14 +74,20 @@ class Department(BaseModel):
         return self.department
 
 
-# class AspirantPosition(BaseModel):
-#     """ Aspirant Position model """
-#
-#     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='aspirant_depart')
-#     position = models.CharField(max_length=250, unique=True)
-#
-#     def __str__(self):
-#         return self.position
+class AspirantPosition(BaseModel):
+    """ Aspirant Position model """
+
+    POSITION_TYPE = (
+        ('sug', 'SUG'),
+        ('department', 'DEPARTMENT'),
+    )
+
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='aspirant_depart')
+    position = models.CharField(max_length=250)
+    position_type = models.CharField(max_length=50, choices=POSITION_TYPE)
+
+    def __str__(self):
+        return self.position
 
 
 class RegisteredVoters(BaseModel):
@@ -95,7 +101,8 @@ class RegisteredVoters(BaseModel):
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, related_name='department_school')
     verified_voter = models.BooleanField(default=True)
     aspirant = models.BooleanField(default=False)
-    position = models.CharField(max_length=200, null=True, blank=True)
+    position = models.ForeignKey(AspirantPosition, on_delete=models.SET_NULL, null=True, blank=True,
+                                 related_name='voter_position')
     date_joined = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

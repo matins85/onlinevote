@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 from accounts.forms import (OnlinevoteUserChangeForm, OnlinevoteUserCreationForm)
-from accounts.models import OnlinevoteUser, RegisteredVoters, Year, School, Department
+from accounts.models import OnlinevoteUser, RegisteredVoters, Year, School, Department, AspirantPosition
 
 
 # Register your models here.
@@ -62,12 +62,20 @@ class DepartmentAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 
+class AspirantPositionAdmin(admin.ModelAdmin):
+    ordering = ['id']
+    list_display = ['id', 'department', 'position', 'position_type']
+    list_display_links = ['department']
+    list_per_page = 50
+
+
 admin.site.unregister(Group)
 admin.site.register(OnlinevoteUser, OnlinevoteUserAdmin)
 admin.site.register(RegisteredVoters, OnlinevotersAdmin)
 admin.site.register(Year, YearAdmin)
 admin.site.register(School, SchoolAdmin)
 admin.site.register(Department, DepartmentAdmin)
+admin.site.register(AspirantPosition, AspirantPositionAdmin)
 
 # Customize Admin Portal Name
 admin.site.site_header = "ONLINE VOTING Administration"
