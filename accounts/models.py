@@ -4,9 +4,6 @@ from accounts.managers import OnlinevoteUserManager
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password
-
-
-# Create your models here.
 from accounts.utils import image_resize
 
 

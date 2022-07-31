@@ -5,9 +5,6 @@ from accounts.forms import (OnlinevoteUserChangeForm, OnlinevoteUserCreationForm
 from accounts.models import OnlinevoteUser, RegisteredVoters, Year, School, Department, AspirantPosition
 
 
-# Register your models here.
-
-
 class OnlinevoteUserAdmin(UserAdmin):
     add_form = OnlinevoteUserCreationForm
     form = OnlinevoteUserChangeForm

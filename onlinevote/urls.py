@@ -40,6 +40,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Accounts
     path('accounts/', include('accounts.urls')),
+    # Vote
+    path('vote/', include('vote.urls')),
     # Rest Auth
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-auth/accounts/login/', views.UserLoginView.as_view(), name='custom-login'),
