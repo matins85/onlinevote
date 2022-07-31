@@ -56,8 +56,8 @@ urlpatterns = [
     # URL for ArkUser
     # GET
     path('api/onlinevote-user-profile/', views.OnlinevoteUserProfileView.as_view(), name='onlinevote-user-profile'),
-    path('api/onlinevote-list-year-department/', views.ListYearDeptView.as_view(),
-         name='onlinevote-list-year-department'),
+    path('api/onlinevote-list-year-department-school/', views.ListYearSchoolDeptView.as_view(),
+         name='onlinevote-list-year-department-school'),
     path('api/onlinevote-list-voters/<pk>', views.ListVotersView.as_view(), name='onlinevote-list-voters'),
     path('api/onlinevote-list-aspirant/<pk>', views.ListAspirantView.as_view(), name='onlinevote-list-aspirant'),
     # POST

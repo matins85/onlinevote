@@ -118,11 +118,11 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class SchoolSerializer(serializers.ModelSerializer):
     """ Serializer for School Endpoint """
 
-    departments = DepartmentSerializer(required=False, source="departments", many=True)
+    department = DepartmentSerializer(required=False, source="departments", many=True)
 
     class Meta:
         model = school_model
-        fields = ['id', 'school', 'departments']
+        fields = ['id', 'school', 'department']
 
 
 class VotersDetailSerializer(serializers.ModelSerializer):

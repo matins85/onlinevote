@@ -74,6 +74,16 @@ class Department(BaseModel):
         return self.department
 
 
+# class AspirantPosition(BaseModel):
+#     """ Aspirant Position model """
+#
+#     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='aspirant_depart')
+#     position = models.CharField(max_length=250, unique=True)
+#
+#     def __str__(self):
+#         return self.position
+
+
 class RegisteredVoters(BaseModel):
     """ Registered voters model """
 
