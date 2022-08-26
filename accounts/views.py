@@ -96,8 +96,8 @@ class ListVotersView(ListAPIView):
 class ListAspirantView(ListAPIView):
     """ Endpoint for List all Aspirant Candidate """
 
-    authentication_classes = [TokenAuthentication]
-    permission_classes = (IsAuthenticated, IdentityIsVerified,)
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = (IsAuthenticated, IdentityIsVerified,)
     queryset = voters_model.objects.filter()
     serializer_class = VotersDetailSerializer
 

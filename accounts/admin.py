@@ -32,8 +32,8 @@ class OnlinevoteUserAdmin(UserAdmin):
 
 class OnlinevotersAdmin(admin.ModelAdmin):
     ordering = ['id']
-    list_display = ['id', 'email', 'name', 'matric', 'aspirant', 'department', 'year', 'verified_voter']
-    search_fields = ['email', 'department', 'matric', 'aspirant', 'verified_voter', 'department']
+    list_display = ['id', 'email', 'name', 'matric', 'aspirant', 'department', 'year']
+    search_fields = ['email', 'department', 'matric', 'aspirant', 'department']
     list_display_links = ['email']
     list_per_page = 50
 
@@ -54,7 +54,7 @@ class SchoolAdmin(admin.ModelAdmin):
 
 class DepartmentAdmin(admin.ModelAdmin):
     ordering = ['id']
-    list_display = ['id', 'department']
+    list_display = ['id', 'department', 'school']
     list_display_links = ['department']
     list_per_page = 50
 

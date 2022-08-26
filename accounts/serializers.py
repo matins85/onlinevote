@@ -126,12 +126,24 @@ class SchoolSerializer(serializers.ModelSerializer):
         fields = ['id', 'school', 'department']
 
 
+class VotersDetailSerializer2(serializers.ModelSerializer):
+    """ Serializer for School Endpoint """
+
+    year = YearSerializer()
+
+    class Meta:
+        model = voters_model
+        fields = "__all__"
+
+
 class PositionSerializer(serializers.ModelSerializer):
     """ Serializer for Aspirant Position Endpoint """
 
+    aspirants = VotersDetailSerializer2(required=False, source='aspirant_members', many=True)
+
     class Meta:
         model = position_model
-        fields = "__all__"
+        fields = ['id', 'department', 'position', 'position_type', 'aspirants']
 
 
 class VotersDetailSerializer(serializers.ModelSerializer):
@@ -152,7 +164,7 @@ class VotersCreateSerializer(serializers.ModelSerializer):
     year = serializers.PrimaryKeyRelatedField(required=True, queryset=year_model.objects.all())
     department = serializers.PrimaryKeyRelatedField(required=True, queryset=department_model.objects.all())
     position = serializers.PrimaryKeyRelatedField(required=False, queryset=position_model.objects.all())
-    profile = Base64ImageField(required=True)
+    # profile = Base64ImageField(required=True)
 
     class Meta:
         model = voters_model

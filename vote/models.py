@@ -1,7 +1,6 @@
 from django.db import models
-from onlinevote import settings
 from django.utils import timezone
-from accounts.models import Year, Department, RegisteredVoters
+from accounts.models import Year, Department, RegisteredVoters, AspirantPosition
 
 
 class BaseModel(models.Model):
@@ -14,11 +13,14 @@ class BaseModel(models.Model):
 class VoteModel(BaseModel):
     """ Vote model """
 
-    start = models.BooleanField(default=True)
+    start = models.BooleanField(default=False)
     end = models.BooleanField(default=False)
     year = models.ForeignKey(Year, on_delete=models.SET_NULL, null=True, related_name='vote_year')
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, unique=True,
-                                   related_name='vote_department')
+    department = models.OneToOneField(Department, on_delete=models.SET_NULL, null=True,
+                                      related_name='vote_department')
+
+    def aspirant(self):
+        return AspirantPosition.objects.filter(department=self.department)
 
     def __str__(self):
         return str(self.department)

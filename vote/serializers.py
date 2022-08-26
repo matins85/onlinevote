@@ -54,7 +54,7 @@
 from rest_framework import serializers
 # Accounts Serializer
 from accounts.models import Year, Department, RegisteredVoters
-from accounts.serializers import (DepartmentSerializer, YearSerializer, VotersDetailSerializer)
+from accounts.serializers import (DepartmentSerializer, YearSerializer, VotersDetailSerializer, PositionSerializer)
 # Vote Imports
 from .models import VoteModel, VotersModel
 # Python Import
@@ -72,10 +72,11 @@ class VoteListSerializer(serializers.ModelSerializer):
 
     year = YearSerializer()
     department = DepartmentSerializer()
+    details = PositionSerializer(required=False, source='aspirant', many=True)
 
     class Meta:
         model = vote_model
-        fields = "__all__"
+        fields = ['id', 'start', 'year', 'department', 'details']
 
 
 class VotersListSerializer(serializers.ModelSerializer):
@@ -126,13 +127,17 @@ class VotersCreateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        if int(validated_data['year'].year) != int(datetime.date.today().year):
+        year = year_model.objects.get(id=validated_data['year'])
+        created_by = registered_model.objects.get(id=validated_data['created_by'])
+        department = department_model.objects.get(id=validated_data['department'])
+
+        if int(year.year) != int(datetime.date.today().year):
             raise serializers.ValidationError({"detail": "Cannot vote for the selected year"})
-        elif voters_model.objects.filter(created_by=validated_data['created_by']).filter(
-                year=validated_data['year']).exists():
+        elif voters_model.objects.filter(created_by=created_by, year=year).exists():
             raise serializers.ValidationError({"detail": "Already voted!"})
-        save_list = [voters_model(year=validated_data['year'], department=validated_data['department'],
-                                  choice=row, created_by=validated_data['created_by'])
-                     for row in validated_data['choice']]
-        voters_model.objects.bulk_create(save_list)
+        else:
+            save_list = [voters_model(year=year, department=department,
+                                      choice=registered_model.objects.get(id=row),
+                                      created_by=created_by) for row in validated_data['choice']]
+            voters_model.objects.bulk_create(save_list)
         return dict()
