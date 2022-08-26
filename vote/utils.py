@@ -1,4 +1,4 @@
-from deepface import DeepFace
+# from deepface import DeepFace
 import os
 import base64
 import re
@@ -9,20 +9,20 @@ import boto3
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-def recognize_face(image1, image2):
-    try:
-        result = DeepFace.verify(img1_path=image1, img2_path=image2, enforce_detection=True)['verified']
-        if os.path.exists(image1):
-            os.remove(image1)
-        if os.path.exists(image2):
-            os.remove(image2)
-        return result
-    except Exception as e:
-        if os.path.exists(image1):
-            os.remove(image1)
-        if os.path.exists(image2):
-            os.remove(image2)
-        raise e
+# def recognize_face(image1, image2):
+#     try:
+#         result = DeepFace.verify(img1_path=image1, img2_path=image2, enforce_detection=True)['verified']
+#         if os.path.exists(image1):
+#             os.remove(image1)
+#         if os.path.exists(image2):
+#             os.remove(image2)
+#         return result
+#     except Exception as e:
+#         if os.path.exists(image1):
+#             os.remove(image1)
+#         if os.path.exists(image2):
+#             os.remove(image2)
+#         raise e
 
 
 def compare_faces(source_file: str, target_file: str):
