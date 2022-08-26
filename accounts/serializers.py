@@ -56,7 +56,7 @@ from rest_framework import serializers
 from rest_auth.serializers import LoginSerializer
 # Django Imports
 from django.contrib.auth import get_user_model
-from drf_extra_fields.fields import Base64ImageField
+# from drf_extra_fields.fields import Base64ImageField
 # Account Import
 from accounts.models import Year, RegisteredVoters, Department, School, AspirantPosition
 
@@ -182,7 +182,7 @@ class VotersUpdateSerializer(serializers.ModelSerializer):
     year = serializers.PrimaryKeyRelatedField(required=False, queryset=year_model.objects.all())
     department = serializers.PrimaryKeyRelatedField(required=False, queryset=department_model.objects.all())
     position = serializers.PrimaryKeyRelatedField(required=False, queryset=position_model.objects.all())
-    profile = Base64ImageField(required=False)
+    # profile = Base64ImageField(required=False)
 
     class Meta:
         model = voters_model
