@@ -130,14 +130,17 @@ class VotersCreateSerializer(serializers.ModelSerializer):
         year = year_model.objects.get(id=validated_data['year'])
         created_by = registered_model.objects.get(id=validated_data['created_by'])
         department = department_model.objects.get(id=validated_data['department'])
-
-        if int(year.year) != int(datetime.date.today().year):
-            raise serializers.ValidationError({"detail": "Cannot vote for the selected year"})
-        elif voters_model.objects.filter(created_by=created_by, year=year).exists():
-            raise serializers.ValidationError({"detail": "Already voted!"})
+        get_vote_time = vote_model.objects.get(department=department)
+        if get_vote_time.start is True:
+            if int(year.year) != int(datetime.date.today().year):
+                raise serializers.ValidationError({"detail": "Cannot vote for the selected year"})
+            elif voters_model.objects.filter(created_by=created_by, year=year).exists():
+                raise serializers.ValidationError({"detail": "Already voted!"})
+            else:
+                save_list = [voters_model(year=year, department=department,
+                                          choice=registered_model.objects.get(id=row),
+                                          created_by=created_by) for row in validated_data['choice']]
+                voters_model.objects.bulk_create(save_list)
         else:
-            save_list = [voters_model(year=year, department=department,
-                                      choice=registered_model.objects.get(id=row),
-                                      created_by=created_by) for row in validated_data['choice']]
-            voters_model.objects.bulk_create(save_list)
+            raise serializers.ValidationError({"detail": "Voting closed!"})
         return dict()

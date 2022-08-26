@@ -172,26 +172,5 @@ class ListYearSchoolDeptView(ListAPIView):
                              'postion': queryset4.data})
 
 
-# class MelinaStatView(APIView):
-#     """ Melina Statistics Endpoint """
-#
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = (IsAuthenticated,)
-#
-#     def get(self, request):
-#         queryset = [{
-#             "user": {
-#                 "total_users": UserModel.objects.all().count(),
-#                 "active_users": UserModel.objects.filter(is_active=True).count(),
-#                 "deactivated_users": UserModel.objects.filter(is_active=False).count()
-#             },
-#             "roles": {
-#                 # "total_roles": group_model.objects.all().count(),
-#                 "deleted_roles": audit_model.objects.filter(audit_type="role", subject="delete role").count()
-#             },
-#         }]
-#         return Response(queryset)
-
-
 def index(request):
     return HttpResponse("Welcome to ONLINE VOTING Server API Page")

@@ -9,8 +9,15 @@ base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def recognize_face(image1, image2):
-    result = DeepFace.verify(img1_path=image1, img2_path=image2, enforce_detection=True)['verified']
-    return result
+    try:
+        result = DeepFace.verify(img1_path=image1, img2_path=image2, enforce_detection=True)['verified']
+        return result
+    except Exception as e:
+        if os.path.exists(image1):
+            os.remove(image1)
+        if os.path.exists(image2):
+            os.remove(image2)
+        raise e
 
 
 def save_image(src):

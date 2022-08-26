@@ -59,6 +59,7 @@ urlpatterns = [
     path('api/onlinevote-vote-list/', views.ListVoteView.as_view(), name='onlinevote-vote-list'),
     path('api/onlinevote-vote-login/', views.VoterLoginView.as_view(), name='onlinevote-vote-login'),
     path('api/onlinevote-check-face/', views.CheckFaceView.as_view(), name='onlinevote-check-face'),
+    path('api/onlinevote-list-aspirant/', views.ListAspirantView.as_view(), name='onlinevote-list-aspirant'),
     # POST
     path('api/onlinevote-vote-create/', views.VoteCreateView.as_view(), name='onlinevote-vote-create'),
     path('api/onlinevote-voters-create/', views.VotersCreateView.as_view(), name='onlinevote-voters-create'),

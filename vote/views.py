@@ -39,6 +39,19 @@ class VoterLoginView(APIView):
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ListAspirantView(APIView):
+    """ Endpoint for get list of aspirant for a department """
+
+    queryset = vote_model.objects.all()
+
+    def get(self, request):
+        year = request.query_params.get('year', None)
+        get_id = request.query_params.get('id', None)
+        voters = voters_model.objects.filter(year__id=year).filter(department__id=get_id)
+        print(voters)
+        return Response({})
+
+
 class CheckFaceView(APIView):
     """ Endpoint for recognize face """
 
@@ -49,10 +62,6 @@ class CheckFaceView(APIView):
         save_img2 = save_image(image2)
         recognize_face(os.path.join(base_dir, 'templates', save_img1),
                        os.path.join(base_dir, 'templates', save_img2))
-        if os.path.exists(os.path.join(base_dir, 'templates', save_img1)):
-            os.remove(os.path.join(base_dir, 'templates', save_img1))
-        if os.path.exists(os.path.join(base_dir, 'templates', save_img2)):
-            os.remove(os.path.join(base_dir, 'templates', save_img2))
         return Response({"detail": "success"})
 
 
