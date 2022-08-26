@@ -141,6 +141,8 @@ class VotersCreateSerializer(serializers.ModelSerializer):
                                           choice=registered_model.objects.get(id=row),
                                           created_by=created_by) for row in validated_data['choice']]
                 voters_model.objects.bulk_create(save_list)
+                [registered_model.objects.filter(id=i).update(point=registered_model.objects.get(id=i).point + 1)
+                 for i in validated_data['choice']]
         else:
             raise serializers.ValidationError({"detail": "Voting closed!"})
         return dict()

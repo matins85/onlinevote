@@ -102,6 +102,7 @@ class RegisteredVoters(BaseModel):
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, related_name='department_school')
     aspirant = models.BooleanField(default=False)
     verified_aspirant = models.BooleanField(default=False)
+    point = models.PositiveIntegerField(default=0)
     position = models.ForeignKey(AspirantPosition, on_delete=models.SET_NULL, null=True, blank=True,
                                  related_name='voter_position')
     date_joined = models.DateTimeField(default=timezone.now)

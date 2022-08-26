@@ -6,10 +6,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .utils import recognize_face, save_image
+from .utils import compare_faces
 # Account Imports
 from accounts.permission import IdentityIsVerified
-from accounts.models import Year, Department, RegisteredVoters
+from accounts.models import Year, Department, RegisteredVoters, AspirantPosition
 # Vote Import
 from .serializers import VoteListSerializer, VoteCreateSerializer, VotersCreateSerializer, VotersDetailSerializer
 from .models import VoteModel, VotersModel
@@ -22,6 +22,7 @@ voters_model = VotersModel
 year_model = Year
 department_model = Department
 registered_model = RegisteredVoters
+position_model = AspirantPosition
 
 
 class VoterLoginView(APIView):
@@ -39,29 +40,17 @@ class VoterLoginView(APIView):
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ListAspirantView(APIView):
-    """ Endpoint for get list of aspirant for a department """
-
-    queryset = vote_model.objects.all()
-
-    def get(self, request):
-        year = request.query_params.get('year', None)
-        get_id = request.query_params.get('id', None)
-        voters = voters_model.objects.filter(year__id=year).filter(department__id=get_id)
-        print(voters)
-        return Response({})
-
-
 class CheckFaceView(APIView):
     """ Endpoint for recognize face """
 
     def post(self, request):
         image1 = request.data['image1']
         image2 = request.data['image2']
-        save_img1 = save_image(image1)
-        save_img2 = save_image(image2)
-        recognize_face(os.path.join(base_dir, 'templates', save_img1),
-                       os.path.join(base_dir, 'templates', save_img2))
+        compare_faces(image1, image2)
+        # save_img1 = save_image(image1)
+        # save_img2 = save_image(image2)
+        # recognize_face(os.path.join(base_dir, 'templates', save_img1),
+        #                os.path.join(base_dir, 'templates', save_img2))
         return Response({"detail": "success"})
 
 
