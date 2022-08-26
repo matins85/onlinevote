@@ -37,7 +37,9 @@ def compare_faces(source_file: str, target_file: str):
         print(similarity)
         if float(similarity) < 89:
             raise TypeError("Picture does not correspond")
-    return len(response['FaceMatches'])
+        else:
+            pass
+    # return len(response['FaceMatches'])
 
 
 def save_image(src):
