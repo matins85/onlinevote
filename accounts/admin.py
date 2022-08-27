@@ -61,7 +61,7 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 class AspirantPositionAdmin(admin.ModelAdmin):
     ordering = ['id']
-    list_display = ['id', 'department', 'position', 'position_type']
+    list_display = ['id', 'department', 'position', 'position_type', 'level']
     list_display_links = ['department']
     list_per_page = 50
 

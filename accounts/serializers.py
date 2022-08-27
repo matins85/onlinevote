@@ -140,10 +140,11 @@ class PositionSerializer(serializers.ModelSerializer):
     """ Serializer for Aspirant Position Endpoint """
 
     aspirants = VotersDetailSerializer2(required=False, source='aspirant_members', many=True)
+    nd = VotersDetailSerializer2(required=False, source='aspirant_members2', many=True)
 
     class Meta:
         model = position_model
-        fields = ['id', 'department', 'position', 'position_type', 'aspirants']
+        fields = ['id', 'department', 'position', 'position_type', 'aspirants', 'nd', 'level']
 
 
 class VotersDetailSerializer(serializers.ModelSerializer):

@@ -77,21 +77,36 @@ class AspirantPosition(BaseModel):
         ('sug', 'SUG'),
         ('department', 'DEPARTMENT'),
     )
+    LEVEL_TYPE = (
+        ('nd', 'nd'),
+        ('hnd', 'hnd'),
+    )
 
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='aspirant_depart')
     position = models.CharField(max_length=250)
     position_type = models.CharField(max_length=50, choices=POSITION_TYPE)
+    level = models.CharField(max_length=50, choices=LEVEL_TYPE)
 
     def aspirant_members(self):
-        return RegisteredVoters.objects.filter(department=self.department).filter(aspirant=True).filter(
-            verified_aspirant=True).filter(position=self)
+        return RegisteredVoters.objects.filter(level='hnd').filter(department=self.department)\
+            .filter(aspirant=True).filter(verified_aspirant=True).filter(position=self)
+
+    def aspirant_members2(self):
+        return RegisteredVoters.objects.filter(level='nd').filter(department=self.department)\
+            .filter(aspirant=True).filter(verified_aspirant=True).filter(position=self)
 
     def __str__(self):
-        return f"{self.department} {self.position} {self.position_type}"
+        return f"department: {self.department} | position: {self.position} | position-type:{self.position_type} " \
+               f"| level: {self.level}"
 
 
 class RegisteredVoters(BaseModel):
     """ Registered voters model """
+
+    LEVEL_TYPE = (
+        ('nd', 'nd'),
+        ('hnd', 'hnd'),
+    )
 
     email = models.EmailField(_('email address'), unique=True)
     name = models.CharField(max_length=250)
@@ -105,6 +120,7 @@ class RegisteredVoters(BaseModel):
     point = models.PositiveIntegerField(default=0)
     position = models.ForeignKey(AspirantPosition, on_delete=models.SET_NULL, null=True, blank=True,
                                  related_name='voter_position')
+    level = models.CharField(max_length=50, choices=LEVEL_TYPE)
     date_joined = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
