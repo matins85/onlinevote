@@ -87,7 +87,7 @@ class AspirantPosition(BaseModel):
             verified_aspirant=True).filter(position=self)
 
     def __str__(self):
-        return f"str{self.department} {self.position} {self.position_type}"
+        return f"{self.department} {self.position} {self.position_type}"
 
 
 class RegisteredVoters(BaseModel):
