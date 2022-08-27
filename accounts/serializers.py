@@ -163,7 +163,6 @@ class VotersCreateSerializer(serializers.ModelSerializer):
 
     year = serializers.PrimaryKeyRelatedField(required=True, queryset=year_model.objects.all())
     department = serializers.PrimaryKeyRelatedField(required=True, queryset=department_model.objects.all())
-    position = serializers.PrimaryKeyRelatedField(required=False, queryset=position_model.objects.all())
     # profile = Base64ImageField(required=True)
 
     class Meta:

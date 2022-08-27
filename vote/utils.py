@@ -31,14 +31,17 @@ def compare_faces(source_file: str, target_file: str):
     response = client.compare_faces(SimilarityThreshold=80,
                                     SourceImage={'Bytes': base64.urlsafe_b64decode(source_file)},
                                     TargetImage={'Bytes': base64.urlsafe_b64decode(target_file)})
-
-    for faceMatch in response['FaceMatches']:
-        similarity = str(faceMatch['Similarity'])
-        print(similarity)
-        if float(similarity) < 89:
-            raise TypeError("Picture does not correspond")
-        else:
-            pass
+    if response['FaceMatches']:
+        pass
+    else:
+        raise TypeError("Picture does not correspond")
+    # for faceMatch in response['FaceMatches']:
+    #     similarity = str(faceMatch['Similarity'])
+    #     print(similarity)
+    #     if float(similarity) < 98:
+    #
+    #     else:
+    #         pass
     # return len(response['FaceMatches'])
 
 
